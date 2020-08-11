@@ -3,10 +3,9 @@ import {BrowserRouter} from 'react-router-dom';
 import Main from './components/MainComponent';
 import './App.css';
 import { Provider } from 'react-redux';
-import { ConfigureStore } from './redux/ConfigureStore';
+import {AppStore} from './redux/AppStore';
 
-const store = ConfigureStore();
-
+const store = AppStore();
 
 class App extends Component{
 

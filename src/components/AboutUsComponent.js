@@ -3,6 +3,7 @@ import { CardTitle,CardSubtitle, CardText, Breadcrumb, BreadcrumbItem} from 'rea
 import {Link} from 'react-router-dom';
 import {baseUrl} from '../shared/baseUrl';
 
+
 	function RenderLeader({leader}){
 		
 		return(
@@ -26,7 +27,7 @@ import {baseUrl} from '../shared/baseUrl';
 		const leaders = props.leaders.map(
 			(leader) =>{
 				return(
-					<RenderLeader leader={leader} />
+					<RenderLeader key={leader._id} leader={leader} />
 				);
 			}
 		)
@@ -46,10 +47,10 @@ import {baseUrl} from '../shared/baseUrl';
 	            <div className="row row-content">
 					<div className="col-sm-6">
 						<h2>Our History</h2>
-						<p>Started in 2010, Ristorante con Fusion quickly established
-							itself as a culinary icon par excellence in Hong Kong. With its
+						<p>Started in 2017, Ristorante con Fusion quickly established
+							itself as a culinary icon par excellence in Bangalore. With its
 							unique brand of world fusion cuisine that can be found nowhere
-							else, it enjoys patronage from the A-list clientele in Hong Kong.
+							else, it enjoys patronage from the A-list clientele in Bangalore.
 							Featuring four of the best three-star Michelin chefs in the world,
 							you never know what will arrive on your plate the next time you
 							visit us.</p>
@@ -66,11 +67,11 @@ import {baseUrl} from '../shared/baseUrl';
 							<div className="card-body">
 								<dl className="row">
 									<dt className="col-6">Started</dt>
-									<dd className="col-6">15th Aug, 2015</dd>
+									<dd className="col-6">17th Aug, 2017</dd>
 									<dt className="col-6">Major Stake Holder</dt>
-									<dd className="col-6">HK Fine Foods Inc.</dd>
+									<dd className="col-6">Farbig Fine Foods LLP.</dd>
 									<dt className="col-6">Last Year's Turnover</dt>
-									<dd className="col-6">$1,250,365</dd>
+									<dd className="col-6">₹32,51,125</dd>
 									<dt className="col-6">Employees</dt>
 									<dd className="col-6">40</dd>
 								</dl>
@@ -135,9 +136,9 @@ import {baseUrl} from '../shared/baseUrl';
 									</tr>
 									<tr>
 										<th>Annual Turnover</th>
-										<td>$251,325</td>
-										<td>$1,251,300</td>
-										<td>$3,251,125</td>
+										<td>₹2,51,325</td>
+										<td>₹12,51,300</td>
+										<td>₹32,51,125</td>
 									</tr>
 								</tbody>
 							</table>

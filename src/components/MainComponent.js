@@ -3,18 +3,19 @@ import Home from './HomeComponent';
 import Header from './HeaderComponent';
 import About from './AboutUsComponent';
 import Menu from './MenuComponent';
-import DishDetail from './DishDetailComponent';
+import Dish from './DishComponent';
 import Contact from './ContactComponent';
+import Login from './LoginComponent';
 import Footer from './FooterComponent';
 import {Switch, Route, Redirect, withRouter} from 'react-router-dom';
 import {connect} from 'react-redux';
-import { postComment, fetchDishes, fetchComments, fetchPromos, fetchLeaders } from '../redux/ActionCreators';
+import {register, login, logout, postComment, fetchDishes, fetchPromos, fetchLeaders } from '../redux/ActionCreators';
 
 const mapStateToProps = state =>{
-	return{
 
+	return{
 		dishes: state.dishes,
-		comments: state.comments,
+		user: state.user,
 		promotions: state.promotions,
 		leaders: state.leaders
 	};
@@ -23,19 +24,23 @@ const mapStateToProps = state =>{
 const mapDispatchToProps = dispatch => ({
   
 	postComment: (dishId, rating, author, comment) => dispatch(postComment(dishId, rating, author, comment)),
-	fetchDishes: () => {dispatch(fetchDishes())},
-	fetchComments: () => {dispatch(fetchComments())},
-	fetchPromos: () => {dispatch(fetchPromos())},
-	fetchLeaders: () => {dispatch(fetchLeaders())}
-  });
+	fetchDishes: () => dispatch(fetchDishes()),
+	fetchPromos: () => dispatch(fetchPromos()),
+	fetchLeaders: () => dispatch(fetchLeaders()),
+	register: (username,password, firstname, lastname, email) => dispatch(register(username,password, firstname, lastname, email)),
+	logout: () => dispatch(logout()),
+	login: (username, password) => dispatch(login(username, password))
+});
 
 
 class Main extends Component{
 
 	componentDidMount(){
+		if(this.props.dishes.dishes.length===0)
 		this.props.fetchDishes();
-		this.props.fetchComments();
+		if(this.props.leaders.leaders.length===0)
 		this.props.fetchPromos();
+		if(this.props.promotions.promotions.length===0)
 		this.props.fetchLeaders();
 	}
 
@@ -53,6 +58,7 @@ class Main extends Component{
 			  leader={this.props.leaders.leaders.filter((leader) => leader.featured)[0]}
 			  leadersErrMess ={this.props.leaders.errMess}
 			  leadersLoading={this.props.leaders.isLoading}
+			 
           />
       );
     }
@@ -60,12 +66,10 @@ class Main extends Component{
 	const DishDetails = ({match}) => {
 		
 		return(
-			<DishDetail
+			<Dish
 				isLoading={this.props.dishes.isLoading}
 				dishesErrMess ={this.props.dishes.errMess}
-				selectedDish={this.props.dishes.dishes.filter((dish) => dish.id === parseInt(match.params.dishId,10))[0]}
-				comments={this.props.comments.comments.filter((comment) => comment.dishId=== parseInt(match.params.dishId,10))}
-				commentsErrMess ={this.props.comments.errMess}
+				selectedDish={this.props.dishes.dishes.filter((dish) => dish._id === match.params.dishId)[0]}
 				postComment={this.props.postComment}
 			/> 
 		);
@@ -79,18 +83,24 @@ class Main extends Component{
 	}
 		
 	return (
-		  <div>
-			  <Header />
+		  	<div>
+				<Header  
+					login={this.props.login}
+					user={this.props.user}
+					logout={this.props.logout}
+					register={this.props.register}
+				/>
 				<Switch>
 					<Route path="/home" component={HomePage}/>
 					<Route exact path="/aboutus" component={AboutUs} />
 					<Route exact path="/menu" component={() => <Menu dishes={this.props.dishes} />} />
 					<Route path="/menu/:dishId" component={DishDetails} />
 					<Route exact path="/contactus" component={Contact} />
+					<Route exact path="/login" component={() =><Login logout={this.props.logout} user={this.props.user} />} />
 					<Redirect to="/home" />
 				</Switch>
-			  <Footer />
-          </div>
+				<Footer />
+          	</div>
 	   );
 	}
 }
